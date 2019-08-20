@@ -1,5 +1,6 @@
 import pandas as pd
 import os #Sistemas operativo
+import urllib3
 
 main_path = "F:/Proyectos Python/Python/datasets"
 file_name = "titanic/titanic3.csv"
@@ -75,6 +76,44 @@ read_excel.to_csv(main_path + "/titanic/titanic_daniel.csv")
 read_excel.to_excel(main_path + "/titanic/titanic_daniel.xls")
 read_excel.to_json(main_path + "/titanic/titanic_daniel.json")
 
-
+##### ------- EJEMPLO 7 => descarga de datos con urllib3 --------- #####
+# Pasar de binario (repsonse) a un string
+def downloadFromUrl(url, file_name):
+    http = urllib3.PoolManager()
+    r = http.request("GET", url)
+    print("Estado de respuesta: %d" % r.status)
+    response = r.data
+    # response => binario | decodificar a un string UTF-8
+    str_data = response.decode("utf-8")
+    # print(str_data) => 1924,Chamonix,Skating,Figure skating,AUT,individual,M,Silver
+    # Dividir el string y separarlo por intro
+    lines = str_data.split("\n")
+    cols_name = lines[0].split(",") # Extrayendo la cabecera
+    n_cols = len(cols_name) # Cantidad de columnas
+    # Diccionario vacío para ingresar los datos
+    counter = 0
+    main_dict = {}
+    for col in cols_name:
+        main_dict[col] = []
+    # Procesando info
+    for line in lines:
+        if (counter > 0):
+            # Dividir cada string por la ,
+            values = line.strip().split(",")
+        # Añadiendo a la columna
+            for i in range(len(cols_name)):
+                main_dict[cols_name[i]].append(values[i])
+        counter += 1
+    # Convertir en dataFrame
+    medals_df = pd.DataFrame(main_dict)
+    #print(medals_df.head())
+    # Para guardarlo
+    path = "F:/Proyectos Python/Python/datasets"
+    #file_name_dani = "athletes/download_medals."
+    full_path_dani = os.path.join(path, file_name)
+    medals_df.to_json(full_path_dani + ".json")
+    medals_df.to_csv(full_path_dani + ".csv")
+    medals_df.to_excel(full_path_dani + ".xls")
+    return
 
 
