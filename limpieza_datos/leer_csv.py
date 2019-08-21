@@ -89,7 +89,7 @@ def downloadFromUrl(url, file_name):
     # Dividir el string y separarlo por intro
     lines = str_data.split("\n")
     cols_name = lines[0].split(",") # Extrayendo la cabecera
-    n_cols = len(cols_name) # Cantidad de columnas
+    #n_cols = len(cols_name) # Cantidad de columnas
     # Diccionario vacío para ingresar los datos
     counter = 0
     main_dict = {}
@@ -114,6 +114,11 @@ def downloadFromUrl(url, file_name):
     medals_df.to_json(full_path_dani + ".json")
     medals_df.to_csv(full_path_dani + ".csv")
     medals_df.to_excel(full_path_dani + ".xls")
-    return
+    return medals_df
+
+my_data = downloadFromUrl(medals_url, "athletes/download_medals")
+print(my_data.head())
+
+
 
 
