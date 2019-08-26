@@ -1,6 +1,7 @@
 # %%
 import pandas as pd
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 
 # // --------- VISUALIZACIÓN DE DATOS --------- //
@@ -24,11 +25,15 @@ data.plot(kind="scatter", x="Night Calls", y="Night Charge", ax=axs[1][1]) '''
 
 # // --------- HISTOGRAMAS DE FRECUENCIAS --------- //
 # ceil => Redondeo hacia arriba
-k = int(np.ceil(1+np.log2(3333))) # Sturges
+''' k = int(np.ceil(1+np.log2(3333))) # Sturges
 plt.hist(data["Day Calls"], bins=k)
 plt.xlabel("Número de llamdas al día")
 plt.ylabel("Frecuencia")
-plt.title("Histograma de Número de Llamadas al día")
+plt.title("Histograma de Número de Llamadas al día") '''
 
+# // --------- DIAGRAMAS DE CAKA - BOXPLOT --------- //
+plt.boxplot(data["Day Calls"])
+plt.ylabel("Número de llamdas diarias")
+plt.title("BoxPlot de Llamadas al día")
 
 # %%
